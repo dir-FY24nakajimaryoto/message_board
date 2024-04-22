@@ -34,10 +34,18 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    EntityManager em = DBUtil.createEntityManager();
 	    
+	    // GETしたmessageをリストに格納
 	    List<Message> messages = em.createNamedQuery("getAllMessages", Message.class).getResultList();
-		response.getWriter().append(Integer.valueOf(messages.size()).toString());
 		
+	    // entityManagerを閉じる
 		em.close();
+		
+		// reqのAttribute:messagesに代入
+		request.setAttribute("messages", messages);
+		
+		// messagesをリクエストスコープにセット、jspを呼び出す
+		var rd = request.getRequestDispatcher("/WEB-INF/views/messages/index.jsp");
+		rd.forward(request, response);
 	}
 
 }

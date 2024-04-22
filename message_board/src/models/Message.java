@@ -11,6 +11,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+
+/*
+ * DTO役割クラス
+ */
 @Entity
 // 一覧表示するデータを取得するためのJPQLを追記
 @NamedQueries({
