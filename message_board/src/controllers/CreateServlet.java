@@ -13,47 +13,47 @@ import java.sql.Timestamp;
 import models.Message;
 import utils.DBUtil;
 
-
 @WebServlet("/create")
 public class CreateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     public CreateServlet() {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
-	    String _token = request.getParameter("_token");
-	    
-	    // if文でCSRF対策
-	    if (_token != null && _token.equals(request.getSession().getId())) {
-	        /* 以下はNewServletから移行 */
-	      EntityManager em = DBUtil.createEntityManager();
-	      em.getTransaction().begin();
-	      
-	      // Messageのインスタンスを生成
-	      Message m = new Message();
-	      
-	      // mの各フィールドにデータを挿入
-	      String title = request.getParameter("title");
-	      m.setTitle(title);
-	      
-	      String content = request.getParameter("content");
-	      m.setContent(content);
-	      
-	      // 現在の日時を取得
-	      Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-	      m.setCreated_at(currentTime);
-	      m.setUpdated_at(currentTime);
-	      
-	      // DBに保存
-	      em.persist(m);
-	      em.getTransaction().commit();
-	      em.close();
-	      
-	      response.sendRedirect(request.getContextPath() + "/index");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String _token = request.getParameter("_token");
+
+        // if文でCSRF対策
+        if (_token != null && _token.equals(request.getSession().getId())) {
+            /* 以下はNewServletから移行 */
+            EntityManager em = DBUtil.createEntityManager();
+            em.getTransaction().begin();
+
+            // Messageのインスタンスを生成
+            Message m = new Message();
+
+            // mの各フィールドにデータを挿入
+            String title = request.getParameter("title");
+            m.setTitle(title);
+
+            String content = request.getParameter("content");
+            m.setContent(content);
+
+            // 現在の日時を取得
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            m.setCreated_at(currentTime);
+            m.setUpdated_at(currentTime);
+
+            // DBに保存
+            em.persist(m);
+            em.getTransaction().commit();
+            em.close();
+
+            response.sendRedirect(request.getContextPath() + "/index");
         }
-	}
+    }
 
 }

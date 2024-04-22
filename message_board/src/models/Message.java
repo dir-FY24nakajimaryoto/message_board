@@ -11,19 +11,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-
 /*
  * DTO役割クラス
  */
 @Entity
 // 一覧表示するデータを取得するためのJPQLを追記
-@NamedQueries({
-    @NamedQuery(
-            name="getAllMessages",
-            query="SELECT m FROM Message AS m ORDER BY m.id DESC"
-            // JPQL: m = *
-            )
-})
+@NamedQueries({ @NamedQuery(name = "getAllMessages", query = "SELECT m FROM Message AS m ORDER BY m.id DESC"
+// JPQL: m = *
+) })
 @Table(name = "messages")
 public class Message {
     @Id

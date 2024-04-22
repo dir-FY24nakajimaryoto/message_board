@@ -13,23 +13,24 @@ import utils.DBUtil;
 
 @WebServlet("/update")
 public class UpdateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     public UpdateServlet() {
         super();
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    
-	    String _token = request.getParameter("_token");
-	    
-	    if (_token != null && _token.equals(request.getSession().getId())) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String _token = request.getParameter("_token");
+
+        if (_token != null && _token.equals(request.getSession().getId())) {
             var em = DBUtil.createEntityManager();
-            
+
             // セッションスコープからメッセージのIDを取得し、
             // 該当のIDのメッセージ１件のみをDBから取得
-            var m = em.find(Message.class, (Integer)(request.getSession().getAttribute("message_id")));
-            
+            var m = em.find(Message.class, (Integer) (request.getSession().getAttribute("message_id")));
+
             // フォームの内容を各フィールドに上書き
             var title = request.getParameter("title");
             m.setTitle(title);
@@ -39,19 +40,19 @@ public class UpdateServlet extends HttpServlet {
 
             var currentTime = new Timestamp(System.currentTimeMillis());
             m.setUpdated_at(currentTime); // 更新日時のみ上書き
-            
+
             // DBを更新
             em.getTransaction().begin();
             em.getTransaction().commit(); // コミットすれば変更が反映されるため、persistは不要
             em.close();
-            
+
             // セッションスコープ上の不要になったデータを削除
             request.getSession().removeAttribute("message_id");
-            
+
             // indexページへリダイレクト
             response.sendRedirect(request.getContextPath() + "/index");
         }
-	    
-	}
+
+    }
 
 }

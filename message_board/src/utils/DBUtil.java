@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 /*
  * DAO役割クラス
  */
@@ -17,7 +16,7 @@ public class DBUtil {
     }
 
     private static EntityManagerFactory getEntityManagerFactory() {
-        if(emf == null) {
+        if (emf == null) {
             emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         }
 
